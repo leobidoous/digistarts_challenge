@@ -123,7 +123,7 @@ class _ChallengeOnePageState
       keyboardType: TextInputType.number,
       textInputAction: TextInputAction.unspecified,
       scrollPhysics: BouncingScrollPhysics(),
-      decoration: _genericDecoration("Enter the value", "Second operand"),
+      decoration: _genericDecoration("Ex.: 1,2,4,70", "Second operand"),
     );
   }
 
