@@ -31,7 +31,7 @@ abstract class _ChallengeOneControllerBase with Store {
     numbers.forEach((number) {
       if (number.trim().isNotEmpty) _listNumbers.add(int.parse(number));
     });
-    _listNumbers.sort((a, b) => b.compareTo(a));
+    _listNumbers.sort();
     _listNumbers.forEach((number) {
       _setNumbers.add(number);
     });

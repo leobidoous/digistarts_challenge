@@ -239,6 +239,15 @@ class _ChallengeOnePageState
     String _error;
     if (input.trim().isEmpty) {
       return "Field can't empty";
+    } else if (_validadeFirstInput(_firstText.text) == null) {
+      final List<String> _splited = input.split(",");
+      int _length = 0;
+      _splited.forEach((element) {
+        if (element.trim().isNotEmpty) _length += 1;
+      });
+      if (_length > int.parse(_firstText.text)) {
+        return "List length invalid, max ${int.parse(_firstText.text)} items";
+      }
     } else {
       final List<String> _splited = input.split(",");
       if (_splited.isEmpty) return "It's not a valid list";
