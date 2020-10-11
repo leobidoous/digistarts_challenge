@@ -105,27 +105,56 @@ class _ChallengeOnePageState
   Widget _inputFirstValue() {
     return TextFormField(
       controller: _firstText,
-      validator: _validadeFirstInput,
-      keyboardType: TextInputType.number,
       style: _genericStyle(),
+      validator: _validadeFirstInput,
+      onChanged: (String input) => _secondText.clear(),
+      keyboardType: TextInputType.number,
       decoration: _genericDecoration("Enter a integer value", "First operand"),
     );
   }
 
   Widget _inputSecondValue() {
     return TextFormField(
+      minLines: 1,
+      maxLines: 10,
+      style: _genericStyle(),
       controller: _secondText,
       validator: _validadeSecondInput,
       keyboardType: TextInputType.number,
-      style: _genericStyle(),
+      textInputAction: TextInputAction.unspecified,
+      scrollPhysics: BouncingScrollPhysics(),
       decoration: _genericDecoration("Enter the value", "Second operand"),
     );
   }
 
   Widget _listHelperText() {
-    return Text(
-      "Enter a list of integer values, between -1000 to 1000, "
-      "separated by commas and without spaces.",
+    return Row(
+      children: [
+        Expanded(
+          child: Text(
+            "Enter a list of integer values, between -1000 to 1000, "
+            "separated by commas and without spaces.",
+            style: TextStyle(
+              color: Theme.of(context).textTheme.headline1.color,
+            ),
+          ),
+        ),
+        FlatButton(
+          onPressed: _onGenerateRandomNumbers,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          color: Theme.of(context).backgroundColor,
+          visualDensity: VisualDensity.compact,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          child: Text(
+            "Random",
+            style: TextStyle(
+              color: Theme.of(context).textTheme.headline1.color,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -153,52 +182,32 @@ class _ChallengeOnePageState
 
   Widget _showResult() {
     return TextFormField(
+      minLines: 1,
+      maxLines: 10,
       readOnly: true,
-      controller: _showResultText,
       style: _genericStyle(),
-      decoration: _genericDecoration("Ex.: 0000001111 (15)", "Calculated"),
+      controller: _showResultText,
+      scrollPhysics: BouncingScrollPhysics(),
+      decoration: _genericDecoration("Calculated will come here", "Calculated"),
     );
   }
 
-  Future<void> _onCalculate() async {
+  void _onGenerateRandomNumbers() {
+    try{
+      String validated = _validadeFirstInput(_firstText.text);
+      if (validated != null) return;
+      _secondText.text = controller.onGenerateRandomNumbers(int.parse(_firstText.text));
+    } on FormatException catch(e) {
+      print("Erro na validação de input: $e");
+    }
+  }
+
+  void _onCalculate() {
     if (_formKey.currentState.validate()) {
+      FocusScope.of(context).requestFocus(FocusNode());
       try {
-        // int _firstValue;
-        // int _secondValue;
-        // if (controller.inputType == 0) {
-        //   _firstValue =
-        //       int.parse(int.parse(_firstText.text, radix: 2).toRadixString(10));
-        //   _secondValue = int.parse(
-        //       int.parse(_secondText.text, radix: 2).toRadixString(10));
-        // } else if (controller.inputType == 1) {
-        //   _firstValue = int.parse(_firstText.text);
-        //   _secondValue = int.parse(_secondText.text);
-        // }
-        //
-        // switch (controller.operationType) {
-        //   case 0: // ADD
-        //     final int result = _firstValue + _secondValue;
-        //     _showResultText.text = "${result.toRadixString(2)} =($result)";
-        //     break;
-        //   case 1: // SUB
-        //     final int result = _firstValue - _secondValue;
-        //     _showResultText.text = "${result.toRadixString(2)} =($result)";
-        //     break;
-        //   case 2: // MUL
-        //     final int result = _firstValue * _secondValue;
-        //     _showResultText.text = "${result.toRadixString(2)} =($result)";
-        //     break;
-        //   case 3: // DIV
-        //     final int result = (_firstValue / _secondValue).round();
-        //     _showResultText.text = "${result.toRadixString(2)} =($result)";
-        //     break;
-        //   case 4: // PER
-        //     final int result = _firstValue % _secondValue;
-        //     _showResultText.text = "${result.toRadixString(2)} =($result)";
-        //     break;
-        //   default:
-        //     break;
-        // }
+        final List<String> _splited = _secondText.text.split(",");
+        _showResultText.text = controller.onSortList(_splited);
       } catch (e) {
         print("Erro ao calcular resultado: $e");
         _showResultText.text = "Erro ao calcular resultado";
@@ -218,7 +227,8 @@ class _ChallengeOnePageState
         if (integer > 1000) return "Value out of range (1-1000)";
         if (integer < 1) return "Value out of range (1-1000)";
       } on FormatException catch (e) {
-        return "";
+        print("Erro na validação de input: $e");
+        return "It's not a valid number";
       }
     }
 
@@ -226,18 +236,26 @@ class _ChallengeOnePageState
   }
 
   String _validadeSecondInput(String input) {
+    String _error;
     if (input.trim().isEmpty) {
       return "Field can't empty";
     } else {
-      try {
-        final int integer = int.parse(input);
-        if (integer > 1000) return "Value out of range (-1000-1000)";
-        if (integer < -1000) return "Value out of range (-1000-1000)";
-      } on FormatException catch (e) {
-        return "";
+      final List<String> _splited = input.split(",");
+      if (_splited.isEmpty) return "It's not a valid list";
+      else {
+        try {
+          _splited.forEach((element) {
+            if (element.trim().isEmpty) return null;
+            final int integer = int.parse(element);
+            if (integer > 1000) _error = "Value out of range (-1000-1000)";
+            if (integer < -1000) _error = "Value out of range (-1000-1000)";
+          });
+        } on FormatException catch (e) {
+          print("Erro na validação de input: $e");
+          return "List contains not valid number(s)";
+        }
       }
+      return _error;
     }
-
-    return null;
   }
 }

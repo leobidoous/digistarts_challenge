@@ -46,53 +46,56 @@ class _ChallengeTwoPageState
             Expanded(
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
-                  child: Card(
-                    elevation: 0.0,
-                    color: Theme.of(context).cardColor,
-                    margin: EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0,),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            SizedBox(height: 10.0),
-                            _selectInputType(),
-                            SizedBox(height: 15.0),
-                            _inputFirstValue(),
-                            SizedBox(height: 10.0),
-                            _selectOperationType(),
-                            SizedBox(height: 15.0),
-                            _inputSecondValue(),
-                            SizedBox(height: 10.0),
-                            _btnShowResult(),
-                            SizedBox(height: 10.0),
-                            _showResult(),
-                            SizedBox(height: 10.0),
-                          ],
-                        ),
+                child: Card(
+                  elevation: 0.0,
+                  color: Theme.of(context).cardColor,
+                  margin: EdgeInsets.symmetric(
+                    vertical: 15.0,
+                    horizontal: 10.0,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          SizedBox(height: 10.0),
+                          _selectInputType(),
+                          SizedBox(height: 15.0),
+                          _inputFirstValue(),
+                          SizedBox(height: 10.0),
+                          _selectOperationType(),
+                          SizedBox(height: 15.0),
+                          _inputSecondValue(),
+                          SizedBox(height: 10.0),
+                          _btnShowResult(),
+                          SizedBox(height: 10.0),
+                          _showResult(),
+                          SizedBox(height: 10.0),
+                        ],
                       ),
                     ),
                   ),
                 ),
               ),
+            ),
             CopyrightWidget(),
           ],
         ),
       ),
     );
   }
-  
+
   TextStyle _genericStyle() {
     return TextStyle(
       color: Theme.of(context).textTheme.headline1.color,
     );
   }
-  
+
   InputDecoration _genericDecoration(String hint, String label) {
     return InputDecoration(
       hintStyle: _genericStyle(),
@@ -188,8 +191,9 @@ class _ChallengeTwoPageState
     );
   }
 
-  Future<void> _onCalculate() async {
+  void _onCalculate() {
     if (_formKey.currentState.validate()) {
+      FocusScope.of(context).requestFocus(FocusNode());
       try {
         int _firstValue;
         int _secondValue;
