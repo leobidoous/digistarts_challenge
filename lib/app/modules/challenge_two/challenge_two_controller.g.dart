@@ -9,39 +9,42 @@ part of 'challenge_two_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ChallengeTwoController on _ChallengeTwoControllerBase, Store {
-  final _$valueAtom = Atom(name: '_ChallengeTwoControllerBase.value');
+  final _$inputTypeAtom = Atom(name: '_ChallengeTwoControllerBase.inputType');
 
   @override
-  int get value {
-    _$valueAtom.reportRead();
-    return super.value;
+  int get inputType {
+    _$inputTypeAtom.reportRead();
+    return super.inputType;
   }
 
   @override
-  set value(int value) {
-    _$valueAtom.reportWrite(value, super.value, () {
-      super.value = value;
+  set inputType(int value) {
+    _$inputTypeAtom.reportWrite(value, super.inputType, () {
+      super.inputType = value;
     });
   }
 
-  final _$_ChallengeTwoControllerBaseActionController =
-      ActionController(name: '_ChallengeTwoControllerBase');
+  final _$operationTypeAtom =
+      Atom(name: '_ChallengeTwoControllerBase.operationType');
 
   @override
-  void increment() {
-    final _$actionInfo = _$_ChallengeTwoControllerBaseActionController
-        .startAction(name: '_ChallengeTwoControllerBase.increment');
-    try {
-      return super.increment();
-    } finally {
-      _$_ChallengeTwoControllerBaseActionController.endAction(_$actionInfo);
-    }
+  int get operationType {
+    _$operationTypeAtom.reportRead();
+    return super.operationType;
+  }
+
+  @override
+  set operationType(int value) {
+    _$operationTypeAtom.reportWrite(value, super.operationType, () {
+      super.operationType = value;
+    });
   }
 
   @override
   String toString() {
     return '''
-value: ${value}
+inputType: ${inputType},
+operationType: ${operationType}
     ''';
   }
 }

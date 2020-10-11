@@ -9,10 +9,7 @@ class ChallengeTwoController = _ChallengeTwoControllerBase
 
 abstract class _ChallengeTwoControllerBase with Store {
   @observable
-  int value = 0;
-
-  @action
-  void increment() {
-    value++;
-  }
+  int inputType = 0;
+  @observable
+  int operationType = 0;
 }

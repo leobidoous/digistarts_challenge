@@ -17,9 +17,21 @@ class AppModule extends MainModule {
   @override
   List<ModularRouter> get routers => [
         ModularRouter(Modular.initialRoute, module: HomeModule()),
-        ModularRouter("/shared", module: SharedModule()),
-        ModularRouter("/challenge_one", module: ChallengeOneModule()),
-        ModularRouter("/challenge_two", module: ChallengeTwoModule()),
+        ModularRouter(
+          "/shared",
+          module: SharedModule(),
+          transition: TransitionType.rightToLeft,
+        ),
+        ModularRouter(
+          "/challenge_one",
+          module: ChallengeOneModule(),
+          transition: TransitionType.rightToLeft,
+        ),
+        ModularRouter(
+          "/challenge_two",
+          module: ChallengeTwoModule(),
+          transition: TransitionType.rightToLeft,
+        ),
       ];
 
   @override
