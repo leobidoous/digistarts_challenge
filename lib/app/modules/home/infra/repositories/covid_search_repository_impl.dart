@@ -12,12 +12,8 @@ class CovidSearchRepositoryImpl implements CovidSearchRepository {
   Future<Either<Exception, CovidResultModel>> getCovidSearch(
       String search) async {
     try {
-      final CovidResultModel? results = await datasource.getCovidSearch(search);
-      return results == null
-          ? left(
-              Exception('CovidSearchRepositoryImpl| getCovidSearch: Vazia.'),
-            )
-          : right(results);
+      final CovidResultModel results = await datasource.getCovidSearch(search);
+      return right(results);
     } catch (e) {
       return left(Exception('CovidSearchRepositoryImpl| getCovidSearch: $e'));
     }

@@ -1,7 +1,6 @@
 import 'package:digistarts_challenge/app/core/enums/window_mode.dart';
 import 'package:digistarts_challenge/app/core/utils/helpers.dart';
 import 'package:digistarts_challenge/app/modules/home/domain/entities/covid_result_entity.dart';
-import 'package:digistarts_challenge/app/modules/home/infra/models/covid_result_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_triple/flutter_triple.dart';
@@ -99,7 +98,7 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
           Expanded(
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryColor.withOpacity(0.25),
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20),
@@ -123,21 +122,34 @@ class _HomePageState extends ModularState<HomePage, HomeStore> {
       store: store,
       builder: (_, triple) {
         final List _list = triple.state.results;
-        return Scrollbar(
-          controller: listController,
-          child: ListView.separated(
-            itemCount: _list.length,
-            controller: listController,
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-            separatorBuilder: (_, __) => const SizedBox(height: 15),
-            itemBuilder: (_, index) {
-              return SafeArea(
-                top: false,
-                bottom: _list[index] == triple.state.results.last,
-                child: CardInfoWidget(info: _list[index]),
-              );
-            },
-          ),
+        Widget loading = const SizedBox();
+
+        if (triple.isLoading) {
+          loading = const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Stack(
+          children: [
+            Scrollbar(
+              controller: listController,
+              child: ListView.separated(
+                itemCount: _list.length,
+                controller: listController,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+                separatorBuilder: (_, __) => const SizedBox(height: 15),
+                itemBuilder: (_, index) {
+                  return SafeArea(
+                    top: false,
+                    bottom: _list[index] == triple.state.results.last,
+                    child: CardInfoWidget(info: _list[index]),
+                  );
+                },
+              ),
+            ),
+            loading,
+          ],
         );
       },
     );

@@ -28,6 +28,6 @@ class LoginRouteGuard extends RouteGuard {
 
   @override
   FutureOr<bool> canActivate(String path, ParallelRoute route) async {
-    return false;
+    return true;
   }
 }

@@ -27,6 +27,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
           ),
         ),
         TextFormField(
+          obscureText: true,
           decoration: const InputDecoration(
             hintText: 'Informe sua senha',
             labelText: 'Senha',

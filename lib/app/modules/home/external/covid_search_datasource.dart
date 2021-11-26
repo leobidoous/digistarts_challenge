@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:digistarts_challenge/app/modules/home/infra/models/covid_result_model.dart';
 import 'package:dio/dio.dart';
 
@@ -13,11 +11,11 @@ class CovidSearchDatasource {
     });
   }
 
-  Future<CovidResultModel?> getCovidSearch(String search) async {
+  Future<CovidResultModel> getCovidSearch(String search) async {
     try {
       final Response response = await client.get('/covid19/caso/data/');
       return CovidResultModel.fromMap(response.data);
-    }  catch (e) {
+    } catch (e) {
       throw Exception('CovidSearchDatasource| getCovidSearch: $e');
     }
   }

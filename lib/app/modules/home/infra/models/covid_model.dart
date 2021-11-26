@@ -43,8 +43,8 @@ class CovidModel extends CovidEntity {
     this.isLast,
     this.orderForPlace,
     this.placeType,
-    this.state,}
-  );
+    this.state,
+  });
 
   Map<String, dynamic> toMap() {
     return {
@@ -67,16 +67,16 @@ class CovidModel extends CovidEntity {
   factory CovidModel.fromMap(Map<String, dynamic> map) {
     return CovidModel(
       city: map['city'],
-      cityIbgeCode: map['cityIbgeCode'],
+      cityIbgeCode: map['city_ibge_code'],
       confirmed: map['confirmed'],
-      confirmedPer100kInhabitants: map['confirmedPer100kInhabitants'],
+      confirmedPer100kInhabitants: map['confirmed_per_100k_inhabitants'],
       date: map['date'],
-      deathRate: map['deathRate'],
+      deathRate: map['death_rate'],
       deaths: map['deaths'],
-      estimatedPopulation: map['estimatedPopulation'],
-      estimatedPopulation2019: map['estimatedPopulation2019'],
+      estimatedPopulation: map['estimated_population'],
+      estimatedPopulation2019: map['estimated_population_2019'],
       isLast: map['isLast'],
-      orderForPlace: map['orderForPlace'],
+      orderForPlace: map['order_for_place'],
       placeType: map['placeType'],
       state: map['state'],
     );
