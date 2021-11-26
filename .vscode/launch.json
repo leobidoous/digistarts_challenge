@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "digistart",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart"
+        },
+    ]
+}
