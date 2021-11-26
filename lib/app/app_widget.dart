@@ -1,41 +1,48 @@
-import 'package:digistarts_challenge/app/app_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import 'core/constants/theme.dart';
+import 'core/utils/router_observer.dart';
 
 class AppWidget extends StatelessWidget {
-  final AppController _controller = Modular.get<AppController>();
+  final RouterObserver routerObserver;
+
+  const AppWidget({
+    Key? key,
+    required this.routerObserver,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
+    return ScreenUtilInit(
+      builder: () {
         return MaterialApp(
-          navigatorKey: Modular.navigatorKey,
+          navigatorObservers: [
+            routerObserver,
+          ],
+          title: 'Digistart',
+          theme: LightTheme.theme,
+          themeMode: ThemeMode.light,
+          // debugShowMaterialGrid: true,
           debugShowCheckedModeBanner: false,
-          title: 'Digistarts Challenge',
-          themeMode:
-              _controller.darkThemeMode ? ThemeMode.dark : ThemeMode.light,
-          darkTheme: ThemeData(
-            backgroundColor: Colors.black,
-            cardColor: Colors.grey.shade800,
-            primarySwatch: Colors.blue,
-            textTheme: TextTheme(headline1: TextStyle(color: Colors.white)),
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-          ),
-          theme: ThemeData(
-            backgroundColor: Colors.white,
-            cardColor: Colors.grey.shade100,
-            primarySwatch: Colors.blue,
-            textTheme: TextTheme(headline1: TextStyle(color: Colors.black)),
-            highlightColor: Colors.transparent,
-            splashColor: Colors.transparent,
-          ),
-          initialRoute: '/',
-          onGenerateRoute: Modular.generateRoute,
-        );
+          supportedLocales: const [Locale('pt', 'BR')],
+          localizationsDelegates: const [
+            GlobalCupertinoLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          locale: const Locale('pt', 'BR'),
+          initialRoute: Modular.initialRoute,
+          builder: (context, widget) {
+            return MediaQuery(
+              //Setting font does not change with system font size
+              data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
+              child: widget!,
+            );
+          },
+        ).modular();
       },
     );
   }
